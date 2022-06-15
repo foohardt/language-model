@@ -31,15 +31,66 @@ import { SaveableLSTMTextGenerator } from "./text-generator";
 const testText = document.getElementById("test-text");
 const seedTextInput = document.getElementById("seed-text");
 const generatedTextInput = document.getElementById("generated-text");
-
+const generatedTextSpinner = document.getElementById("generated-text-spinner");
+generatedTextSpinner.style.display = "none"; 
 const sampleLen = 40;
 const sampleStep = 3;
+
+// Timer used to determine user input
+let keyDownTimer;
 
 // Module-global instance of TextData.
 let textData;
 
 // Module-global instance of SaveableLSTMTextGenerator.
 let textGenerator;
+
+/**
+ * Function to load text data and text generator
+ * @returns
+ */
+
+async function createTextData() {
+  let dataIdentifier = "nietzsche"; //textDataSelect.value;
+  const url = TEXT_DATA_URLS[dataIdentifier].url;
+  if (true /* testText.value.length === 0 */) {
+    try {
+      console.debug(`Loading text data from URL: ${url} ...`);
+      const response = await fetch(url);
+      const textString = await response.text();
+      testText.value = textString;
+      console.debug(
+        `Done loading text data ` +
+          `(length=${(textString.length / 1024).toFixed(1)}k). ` +
+          `Next, please load or create model.`
+      );
+    } catch (err) {
+      console.error("Failed to load text data: " + err.message);
+    }
+    if (testText.value.length === 0) {
+      console.error("ERROR: Empty text data.");
+      return;
+    }
+  } else {
+    dataIdentifier = hashCode(testText.value);
+  }
+
+  textData = new TextData(
+    dataIdentifier,
+    testText.value,
+    sampleLen,
+    sampleStep
+  );
+}
+
+/**
+ * Function to create Text Generator
+ */
+
+function createTextGenerator() {
+  textGenerator = new SaveableLSTMTextGenerator(textData);
+  textGenerator.loadModel();
+}
 
 /**
  * A function to call when text generation begins.
@@ -49,8 +100,12 @@ let textGenerator;
  */
 export function onTextGenerationBegin() {
   generatedTextInput.value = "";
-  // logStatus('Generating text...');
   console.log("Generating text...");
+  generatedTextSpinner.style.display = "block"; 
+}
+
+function onTextGenerationEnd() {
+  generatedTextSpinner.style.display = "none"; 
 }
 
 /**
@@ -67,9 +122,9 @@ export async function onTextGenerationChar(char) {
   await tf.nextFrame();
 }
 
-export function run() {
-  console.debug("Started text generator");
-  loadTestText();
+async function run() {
+  await createTextData();
+  createTextGenerator();
 
   /**
    * Use `textGenerator` to generate random text, show the characters on the
@@ -77,12 +132,10 @@ export function run() {
    */
 
   async function generateText() {
+  //  generatedTextSpinner.style.display = "block"; 
     try {
-      // disableModelButtons();
-
       if (textGenerator == null) {
         console.error("ERROR: Please load text data set first.");
-        // logStatus('ERROR: Please load text data set first.');
         return;
       }
       const generateLength = 10; //parseInt(generateLengthInput.value);
@@ -92,7 +145,6 @@ export function run() {
           `ERROR: Invalid generation length: ${generateLength}. ` +
             `Generation length must be a positive number.`
         );
-        enableModelButtons();
         return;
       }
       if (!(temperature > 0 && temperature <= 1)) {
@@ -100,25 +152,21 @@ export function run() {
           `ERROR: Invalid temperature: ${temperature}. ` +
             `Temperature must be a positive number.`
         );
-        enableModelButtons();
         return;
       }
 
       let seedSentence;
       let seedSentenceIndices;
       if (seedTextInput.value.length === 0) {
-        // Seed sentence is not specified yet. Get it from the data.
-        [seedSentence, seedSentenceIndices] = textData.getRandomSlice();
-        seedTextInput.value = seedSentence;
+        console.error(`ERROR: Seed text cant have a length of 0.`);
       } else {
         seedSentence = seedTextInput.value;
-        if (seedSentence.length < 0 /* textData.sampleLen() */) {
+        if (seedSentence.length < 0 /* textData.sampleLen() */ /* 0 */) {
           console.error(
             `ERROR: Seed text must have a length of at least ` +
               `${textData.sampleLen()}, but has a length of ` +
               `${seedSentence.length}.`
           );
-          enableModelButtons();
           return;
         }
 
@@ -137,10 +185,12 @@ export function run() {
 
       generatedTextInput.value = sentence;
 
-      console.log(sentence);
+      console.info("Sentence", sentence);
       let splitted = sentence.split(" ");
-      console.log(splitted[0]);
-      //return sentence;
+      console.info("Next word", splitted[0]);
+      console.log(seedTextInput)
+      seedTextInput.value = seedTextInput.value + " " + splitted
+      onTextGenerationEnd();
     } catch (err) {
       console.error(
         `ERROR: Failed to generate text: ${err.message}, ${err.stack}`
@@ -148,39 +198,13 @@ export function run() {
     }
   }
 
-  async function loadTestText() {
-    let dataIdentifier = "nietzsche"; //textDataSelect.value;
-    const url = TEXT_DATA_URLS[dataIdentifier].url;
-    if (true /* testText.value.length === 0 */) {
-      try {
-        console.debug(`Loading text data from URL: ${url} ...`);
-        const response = await fetch(url);
-        const textString = await response.text();
-        testText.value = textString;
-        console.debug(
-          `Done loading text data ` +
-            `(length=${(textString.length / 1024).toFixed(1)}k). ` +
-            `Next, please load or create model.`
-        );
-      } catch (err) {
-        console.error("Failed to load text data: " + err.message);
-      }
-      if (testText.value.length === 0) {
-        console.error("ERROR: Empty text data.");
-        return;
-      }
+  async function handleKeyDown() {
+    if (keyDownTimer) {
+      clearTimeout(keyDownTimer);
+      keyDownTimer = setTimeout(await generateText, 1000);
     } else {
-      dataIdentifier = hashCode(testText.value);
+      keyDownTimer = setTimeout(await generateText, 1000);
     }
-
-    textData = new TextData(
-      dataIdentifier,
-      testText.value,
-      sampleLen,
-      sampleStep
-    );
-    textGenerator = new SaveableLSTMTextGenerator(textData);
-    textGenerator.loadModel();
   }
 
   seedTextInput.addEventListener("keydown", async () => {
@@ -188,7 +212,7 @@ export function run() {
       console.error("ERROR: Load text data set first.");
       return;
     }
-    await generateText();
+    handleKeyDown();
   });
 }
 
