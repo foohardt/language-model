@@ -1,0 +1,16 @@
+body {
+    padding-left: 15%;
+    width: 60%
+}
+
+a {
+  cursor: pointer;
+}
+
+.section {
+    border: solid #dee2e6;
+    border-width: 1px;
+    border-radius: 7px;
+    padding: 20px;
+    margin: 10px 0 10px 0;
+}

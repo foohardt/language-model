@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>LSTM Language Model</title>
+  <link href="./style.css" rel="stylesheet" <!-- Import Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
+  <!-- Import Bootstrap JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
+  <!-- Import TensorFlow.js -->
+<!--   <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@2.0.0/dist/tf.min.js"></script> -->
+  <!-- Import tfjs-vis -->
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-vis@1.0.2/dist/tfjs-vis.umd.min.js"></script>
+</head>
+
+<body>
+  <!-- Import the main  onchange="handleChange()"script file -->
+  <div class="d-flex align-items-baseline">
+    <h1 class="fs-2 ms-1 mt-2">Text Prediction using a LSTM Language Model</h1>
+    <a href="" target="_blank"
+      class="link-primary ms-auto">Documentation</a>
+  </div>
+  <section id="" class="section">
+    <span class="d-flex">
+      <h5>Seed Text</h5>
+      <button type="button" class="btn btn-outline-primary btn-sm ms-auto" data-bs-toggle="tooltip"
+      data-bs-placement="top"
+      title="Set model parameters based on available presets by clicking on preset or set individual parameters. To create model and visualize model parameters click 'Create Model'">
+      ?
+    </button>
+    </span>
+    <div>
+      <label for="predictionSandbox">Enter Text</label>
+      <textarea id="seed-text" class="form-control rounded-0" rows="5" value="" ></textarea>
+    </div>
+  </section>
+
+  <section id="" class="section">
+    <span class="d-flex">
+      <h5>Generated Text</h5>
+      <button type="button" class="btn btn-outline-primary btn-sm ms-auto" data-bs-toggle="tooltip"
+      data-bs-placement="top"
+      title="Set model parameters based on available presets by clicking on preset or set individual parameters. To create model and visualize model parameters click 'Create Model'">
+      ?
+    </button>
+    </span>
+    <div>
+      <label for="predictionSandbox">Enter Text</label>
+      <textarea id="generated-text" class="form-control rounded-0" rows="5" readonly="true" value="" ></textarea>
+    </div>
+    <div>
+      <textarea class="monospace" id="test-text" value="" rows="10"></textarea>
+    </div>
+  </section>
+
+  <section class="section">
+    <span class="d-flex">
+      <h5>Model</h5>
+      <button type="button" class="btn btn-outline-primary btn-sm ms-auto" data-bs-toggle="tooltip"
+        data-bs-placement="top"
+        title="Set model parameters based on available presets by clicking on preset or set individual parameters. To create model and visualize model parameters click 'Create Model'">
+        ?
+      </button>
+    </span>
+    <div class="mb-3">
+      <label for="hiddenLayers" class="form-label">Hidden layers</label>
+      <input type="number" class="form-control" id="hiddenLayers" onchange="handleHiddenLayersChange()">
+    </div>
+    <div class="mb-3 d-flex">
+      <button class="btn btn-primary" onclick="create()">Create Model</button>
+      <button id="saveModelButton" class="btn btn-secondary ms-1" onclick="save()" disabled>Save Model</button>
+      <button id="loadModelButton" class="btn btn-secondary ms-1" onclick="load()" disabled>Load Model</button>
+      <span class="ms-auto">
+        <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top"
+          title="When model has been created click 'Save Model' to save model topology and weights to browser local storage. Click again to overwrite existing model. Click 'Load Model' to load last saved model">
+          ?
+        </button>
+      </span>
+    </div>
+  </section>
+
+  <section id="" class="section">
+    <span class="d-flex">
+      <h5>Training</h5>
+      <button type="button" class="btn btn-outline-primary btn-sm ms-auto" data-bs-toggle="tooltip"
+      data-bs-placement="top"
+      title="Set model parameters based on available presets by clicking on preset or set individual parameters. To create model and visualize model parameters click 'Create Model'">
+      ?
+    </button>
+    </span>
+  </section>
+
+  <section id="" class="section">
+    <span class="d-flex">
+      <h5>Text Prediction</h5>
+      <button type="button" class="btn btn-outline-primary btn-sm ms-auto" data-bs-toggle="tooltip"
+      data-bs-placement="top"
+      title="Set model parameters based on available presets by clicking on preset or set individual parameters. To create model and visualize model parameters click 'Create Model'">
+      ?
+    </button>
+    </span>
+  </section>
+    
+  <script type="module" src="./index.js"></script>
+</html>
+
