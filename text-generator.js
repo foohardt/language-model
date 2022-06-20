@@ -40,7 +40,6 @@ import * as model from "./model";
 import {
   onTextGenerationBegin,
   onTextGenerationChar,
-  onTextGenerationFinish,
   onTrainBatchEnd,
   onTrainBegin,
   onTrainEpochEnd,
@@ -153,7 +152,6 @@ export class LSTMTextGenerator {
       temperature,
       onTextGenerationChar
     );
-    onTextGenerationFinish();
   }
 }
 

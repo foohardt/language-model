@@ -27,13 +27,16 @@ import * as tf from "@tensorflow/tfjs";
 import { TEXT_DATA_URLS, TextData } from "./data";
 import { SaveableLSTMTextGenerator } from "./text-generator";
 
+import { generateText } from "./model";
+
 // UI controls.
 const testText = document.getElementById("test-text");
 const seedTextInput = document.getElementById("seed-text");
+const seedTextWarning = document.getElementById("seed-text-warning");
 const generatedTextInput = document.getElementById("generated-text");
 const generatedTextSpinner = document.getElementById("generated-text-spinner");
-generatedTextSpinner.style.display = "none"; 
-const sampleLen = 40;
+generatedTextSpinner.style.display = "none";
+const sampleLen = 60;
 const sampleStep = 3;
 
 // Timer used to determine user input
@@ -44,6 +47,28 @@ let textData;
 
 // Module-global instance of SaveableLSTMTextGenerator.
 let textGenerator;
+
+// Generate text form saved model
+async function genSaved() {
+  const model = textGenerator.model;
+  //const sampleLen = model.inputs[0].shape[1];
+
+  // Create the text data object.
+  /*   const textDataURL = TEXT_DATA_URLS[args.textDatasetName].url;
+  const localTextDataPath = path.join(os.tmpdir(), path.basename(textDataURL));
+  await maybeDownload(textDataURL, localTextDataPath);
+  const text = fs.readFileSync(localTextDataPath, {encoding: 'utf-8'});
+  const textData = new TextData('text-data', text, sampleLen, args.sampleStep); */
+
+  // Get a seed text from the text data object.
+  const [seed, seedIndices] = textData.getRandomSlice();
+
+  console.log(`Seed text:\n"${seed}"\n`);
+
+  const generated = await generateText(model, textData, seedIndices, 20, 0.5);
+
+  console.log(`Generated text:\n"${generated}"\n`);
+}
 
 /**
  * Function to load text data and text generator
@@ -101,11 +126,11 @@ function createTextGenerator() {
 export function onTextGenerationBegin() {
   generatedTextInput.value = "";
   console.log("Generating text...");
-  generatedTextSpinner.style.display = "block"; 
+  generatedTextSpinner.style.display = "block";
 }
 
 function onTextGenerationEnd() {
-  generatedTextSpinner.style.display = "none"; 
+  generatedTextSpinner.style.display = "none";
 }
 
 /**
@@ -132,14 +157,14 @@ async function run() {
    */
 
   async function generateText() {
-  //  generatedTextSpinner.style.display = "block"; 
+    //  generatedTextSpinner.style.display = "block";
     try {
       if (textGenerator == null) {
         console.error("ERROR: Please load text data set first.");
         return;
       }
-      const generateLength = 10; //parseInt(generateLengthInput.value);
-      const temperature = 0.5; // parseFloat(temperatureInput.value);
+      const generateLength = 20; //parseInt(generateLengthInput.value);
+      const temperature = 0.6; // parseFloat(temperatureInput.value);
       if (!(generateLength > 0)) {
         console.error(
           `ERROR: Invalid generation length: ${generateLength}. ` +
@@ -161,7 +186,11 @@ async function run() {
         console.error(`ERROR: Seed text cant have a length of 0.`);
       } else {
         seedSentence = seedTextInput.value;
-        if (seedSentence.length < 0 /* textData.sampleLen() */ /* 0 */) {
+        if (seedSentence.length < textData.sampleLen()) {
+          seedTextWarning.style.color = "red"
+          seedTextWarning.innerText = `${
+            seedSentence.length
+          }/${textData.sampleLen()} `;
           console.error(
             `ERROR: Seed text must have a length of at least ` +
               `${textData.sampleLen()}, but has a length of ` +
@@ -169,6 +198,10 @@ async function run() {
           );
           return;
         }
+        seedTextWarning.style.color = "green"
+        seedTextWarning.innerText = `${
+          seedSentence.length
+        }/${textData.sampleLen()} `;
 
         seedSentence = seedSentence.slice(
           seedSentence.length - textData.sampleLen(),
@@ -187,10 +220,12 @@ async function run() {
 
       console.info("Sentence", sentence);
       let splitted = sentence.split(" ");
-      console.info("Next word", splitted[0]);
-      console.log(seedTextInput)
-      seedTextInput.value = seedTextInput.value + " " + splitted
+      console.log(splitted)
+      const nextWord = splitted[0].length === 0 ? splitted[1] : splitted[0];
+      console.info("Next word", nextWord);
+      seedTextInput.value = seedTextInput.value + " " + nextWord;
       onTextGenerationEnd();
+      return sentence;
     } catch (err) {
       console.error(
         `ERROR: Failed to generate text: ${err.message}, ${err.stack}`

@@ -104,6 +104,7 @@ export async function generateText(
     model, textData, sentenceIndices, length, temperature,
     onTextGenerationChar) {
   const sampleLen = model.inputs[0].shape[1];
+
   const charSetSize = model.inputs[0].shape[2];
 
   // Avoid overwriting the original input.
@@ -124,7 +125,6 @@ export async function generateText(
     // Call model.predict() to get the probability values of the next
     // character.
     const output = model.predict(input);
-
     // Sample randomly based on the probability values.
     const winnerIndex = sample(tf.squeeze(output), temperature);
     const winnerChar = textData.getFromCharSet(winnerIndex);
