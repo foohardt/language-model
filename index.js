@@ -33,11 +33,15 @@ import { generateText } from "./model";
 const testText = document.getElementById("test-text");
 const seedTextInput = document.getElementById("seed-text");
 const seedTextWarning = document.getElementById("seed-text-warning");
+const predictionTypeRadio = document.getElementById("prediction-type-radio");
 const generatedTextInput = document.getElementById("generated-text");
 const generatedTextSpinner = document.getElementById("generated-text-spinner");
 generatedTextSpinner.style.display = "none";
 const sampleLen = 60;
 const sampleStep = 3;
+
+// Type of prediction (next word (0)/sentence (1))
+let predictionType = 0;
 
 // Timer used to determine user input
 let keyDownTimer;
@@ -124,12 +128,14 @@ function createTextGenerator() {
  *   generation.
  */
 export function onTextGenerationBegin() {
+  seedTextInput.disabled = true;
   generatedTextInput.value = "";
   console.log("Generating text...");
   generatedTextSpinner.style.display = "block";
 }
 
 function onTextGenerationEnd() {
+  seedTextInput.disabled = false;
   generatedTextSpinner.style.display = "none";
 }
 
@@ -148,6 +154,8 @@ export async function onTextGenerationChar(char) {
 }
 
 async function run() {
+  document.getElementById("predictionTypeRadio0").checked = true;
+
   await createTextData();
   createTextGenerator();
 
@@ -187,7 +195,7 @@ async function run() {
       } else {
         seedSentence = seedTextInput.value;
         if (seedSentence.length < textData.sampleLen()) {
-          seedTextWarning.style.color = "red"
+          seedTextWarning.style.color = "red";
           seedTextWarning.innerText = `${
             seedSentence.length
           }/${textData.sampleLen()} `;
@@ -198,7 +206,7 @@ async function run() {
           );
           return;
         }
-        seedTextWarning.style.color = "green"
+        seedTextWarning.style.color = "green";
         seedTextWarning.innerText = `${
           seedSentence.length
         }/${textData.sampleLen()} `;
@@ -220,10 +228,15 @@ async function run() {
 
       console.info("Sentence", sentence);
       let splitted = sentence.split(" ");
-      console.log(splitted)
+      console.log(splitted);
       const nextWord = splitted[0].length === 0 ? splitted[1] : splitted[0];
       console.info("Next word", nextWord);
-      seedTextInput.value = seedTextInput.value + " " + nextWord;
+
+      predictionType == 0 || undefined
+        ? (seedTextInput.value = seedTextInput.value + " " + nextWord)
+        : (seedTextInput.value = seedTextInput.value + " " + sentence);
+
+      //seedTextInput.value = seedTextInput.value + " " + nextWord;
       onTextGenerationEnd();
       return sentence;
     } catch (err) {
@@ -248,6 +261,17 @@ async function run() {
       return;
     }
     handleKeyDown();
+  });
+
+  predictionTypeRadio.addEventListener("change", async () => {
+    const radios = document.getElementsByName("inlineRadioOptions");
+    let index;
+    for (let radio of radios) {
+      if (radio.checked) {
+        index = +radio.value;
+      }
+    }
+    predictionType = index;
   });
 }
 

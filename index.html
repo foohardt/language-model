@@ -37,6 +37,18 @@
     <div class="mb-1">
       <textarea id="seed-text" class="form-control rounded-0" rows="5" value=""></textarea>
     </div>
+    <div id="prediction-type-radio">
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="predictionTypeRadio0" value="0"
+          onchange="">
+        <label class="form-check-label" for="predictionTypeRadio1">Next Word</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="predictionTypeRadio1" value="1"
+          onchange="">
+        <label class="form-check-label" for="predictionTypeRadio2">Sentence</label>
+      </div>
+    </div>
   </section>
 
   <section id="" class="section">
@@ -57,18 +69,18 @@
   </section>
 
   <section class="section">
-  <span class="d-flex align-items-baseline mb-1">
-    <h5>Test Text</h5>
-    <button type="button" class="btn btn-outline-primary btn-sm ms-auto" data-bs-toggle="tooltip"
-      data-bs-placement="top"
-      title="Set model parameters based on available presets by clicking on preset or set individual parameters. To create model and visualize model parameters click 'Create Model'">
-      ?
-    </button>
-  </span>
-  <div>
-    <textarea class="form-control rounded-0" rows="5" id="test-text" value="" rows="10"></textarea>
-  </div>
-</section>
+    <span class="d-flex align-items-baseline mb-1">
+      <h5>Test Text</h5>
+      <button type="button" class="btn btn-outline-primary btn-sm ms-auto" data-bs-toggle="tooltip"
+        data-bs-placement="top"
+        title="Set model parameters based on available presets by clicking on preset or set individual parameters. To create model and visualize model parameters click 'Create Model'">
+        ?
+      </button>
+    </span>
+    <div>
+      <textarea class="form-control rounded-0" rows="5" id="test-text" value="" rows="10"></textarea>
+    </div>
+  </section>
   <script type="module" src="./index.js"></script>
 
 </html>
