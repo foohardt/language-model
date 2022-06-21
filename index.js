@@ -27,18 +27,18 @@ import * as tf from "@tensorflow/tfjs";
 import { TEXT_DATA_URLS, TextData } from "./data";
 import { SaveableLSTMTextGenerator } from "./text-generator";
 
-import { generateText } from "./model";
-
 // UI controls.
 const testText = document.getElementById("test-text");
 const seedTextInput = document.getElementById("seed-text");
 const seedTextWarning = document.getElementById("seed-text-warning");
 const predictionTypeRadio = document.getElementById("prediction-type-radio");
+const generateLengthInput = document.getElementById("generate-length-input");
 const generatedTextInput = document.getElementById("generated-text");
 const generatedTextSpinner = document.getElementById("generated-text-spinner");
 generatedTextSpinner.style.display = "none";
 const sampleLen = 60;
 const sampleStep = 3;
+let generateLength;
 
 // Type of prediction (next word (0)/sentence (1))
 let predictionType = 0;
@@ -51,28 +51,6 @@ let textData;
 
 // Module-global instance of SaveableLSTMTextGenerator.
 let textGenerator;
-
-// Generate text form saved model
-async function genSaved() {
-  const model = textGenerator.model;
-  //const sampleLen = model.inputs[0].shape[1];
-
-  // Create the text data object.
-  /*   const textDataURL = TEXT_DATA_URLS[args.textDatasetName].url;
-  const localTextDataPath = path.join(os.tmpdir(), path.basename(textDataURL));
-  await maybeDownload(textDataURL, localTextDataPath);
-  const text = fs.readFileSync(localTextDataPath, {encoding: 'utf-8'});
-  const textData = new TextData('text-data', text, sampleLen, args.sampleStep); */
-
-  // Get a seed text from the text data object.
-  const [seed, seedIndices] = textData.getRandomSlice();
-
-  console.log(`Seed text:\n"${seed}"\n`);
-
-  const generated = await generateText(model, textData, seedIndices, 20, 0.5);
-
-  console.log(`Generated text:\n"${generated}"\n`);
-}
 
 /**
  * Function to load text data and text generator
@@ -148,13 +126,14 @@ export async function onTextGenerationChar(char) {
   generatedTextInput.value += char;
   generatedTextInput.scrollTop = generatedTextInput.scrollHeight;
   const charCount = generatedTextInput.value.length;
-  const generateLength = 10; //parseInt(generateLengthInput.value);
-  const status = `Generating text: ${charCount}/${generateLength} complete...`;
+
   await tf.nextFrame();
 }
 
 async function run() {
   document.getElementById("predictionTypeRadio0").checked = true;
+  generateLength = 20;
+  generateLengthInput.value = 20;
 
   await createTextData();
   createTextGenerator();
@@ -165,13 +144,12 @@ async function run() {
    */
 
   async function generateText() {
-    //  generatedTextSpinner.style.display = "block";
     try {
       if (textGenerator == null) {
         console.error("ERROR: Please load text data set first.");
         return;
       }
-      const generateLength = 20; //parseInt(generateLengthInput.value);
+
       const temperature = 0.6; // parseFloat(temperatureInput.value);
       if (!(generateLength > 0)) {
         console.error(
@@ -273,6 +251,10 @@ async function run() {
     }
     predictionType = index;
   });
+
+  generateLengthInput.addEventListener("change", () => {
+    generateLength = generateLengthInput.value;
+  })
 
   const tooltipTriggerList = document.querySelectorAll(
     '[data-bs-toggle="tooltip"]'
