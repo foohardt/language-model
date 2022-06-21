@@ -46,3 +46,14 @@ Name | Description | Reference |
 | Tensorflow.js VIS| Tensorflow.js VIS is a library to create UI helpers to be used with tensorflow.js. Within this project it is used for visualization of data, model, training and evaluation | https://js.tensorflow.org/api_vis/latest/|
 | Yarn | Yarn is a package manager and is used to manage the project's dependencies | https://yarnpkg.com/ | 
 | Parcel |  Parcel is a bundler and is used to run the project in local development mode and build the project's static assets for production environment | https://parceljs.org/ |
+
+### Modules
+
+This section contains an overview about the project's javascript modules.
+
+Name | Description | 
+--- | --- | 
+index.js | Entrypoint for javascript files. Creates instance of TextData. Loads pre-trained model and wires up user interface for user model interaction | 
+data.js | Contains class TextData, which is used to create reference text data object for model. Text data object contains functions to draw samples and create text indicies for input tensor creation | 
+model.js | Contains function to generate text. Also contains functions to create and compile model | 
+| text-generator.js | Contains class LSTMTextGenerator which can be used to create model instances including functions and fit model, and to generate text. Also contains class SaveableLSTMTextGenerator which contains functions to store instance of LSTMTextGenerator | 
