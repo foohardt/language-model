@@ -20,7 +20,7 @@
   <!-- Import the main  onchange="handleChange()"script file -->
   <div class="d-flex align-items-baseline">
     <h1 class="fs-2 ms-1 mt-2">Text Prediction using a LSTM Language Model</h1>
-    <a href="" target="_blank" class="link-primary ms-auto">Documentation</a>
+    <a href="https://github.com/foohardt/language-model/blob/main/README.md" target="_blank" class="link-primary ms-auto">Documentation</a>
   </div>
   <section id="" class="section">
     <span class="d-flex mb-1">
@@ -30,7 +30,7 @@
       </span>
       <button type="button" class="btn btn-outline-primary btn-sm ms-auto" data-bs-toggle="tooltip"
         data-bs-placement="top"
-        title="Set model parameters based on available presets by clicking on preset or set individual parameters. To create model and visualize model parameters click 'Create Model'">
+        title="Use text area to type text model is supposed to predict on. Seed text must have a minimum length of 60 characters. Prediction starts 1s after user input stopped. Choose between next word and next sentence prediction. During prediction text area is disabled.">
         ?
       </button>
     </span>
@@ -58,7 +58,7 @@
       </div>
       <button type="button" class="btn btn-outline-primary btn-sm ms-auto" data-bs-toggle="tooltip"
         data-bs-placement="top"
-        title="Set model parameters based on available presets by clicking on preset or set individual parameters. To create model and visualize model parameters click 'Create Model'">
+        title="Predicted Text area prints text model is predicting on last user input from seed text area. Ongoing predictions are indicated by a loading spinner.">
         ?
       </button>
     </span>
@@ -73,12 +73,12 @@
       <h5>Test Text</h5>
       <button type="button" class="btn btn-outline-primary btn-sm ms-auto" data-bs-toggle="tooltip"
         data-bs-placement="top"
-        title="Set model parameters based on available presets by clicking on preset or set individual parameters. To create model and visualize model parameters click 'Create Model'">
+        title="Test text is the natural language data, which model has been trained on. It is required for model to draw samples for prediction.">
         ?
       </button>
     </span>
     <div>
-      <textarea class="form-control rounded-0" rows="5" id="test-text" value="" rows="10"></textarea>
+      <textarea class="form-control rounded-0" rows="5" id="test-text" value="" rows="10" disabled></textarea>
     </div>
   </section>
   <script type="module" src="./index.js"></script>
