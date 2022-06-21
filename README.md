@@ -2,7 +2,11 @@
 
 ## Introduction
 
-This repository contains an experimental simulator for characer based text generation using a LSTM network, which is inspiered by the TensorFlow.js LSTM text generation example.
+This repository contains an experimental simulator for character based text generation using a LSTM network. It is inspired by the TensorFlow.js LSTM text generation example.
+
+## Overview
+
+The text generator uses a pre-trained LSTM model which is loaded every time the application loaded. The LSTM model consists of 128 layers and was trainied for 200 epochs on an english written text from Nietzsche (the text can be found within the application). The number of neurons in each layers corresponds to the unique characters in the text it was trainied on, which is 84. As activation function softmax was used and as optimizer categorical cross entropy was used.
 
 ## Usage
 - Open <a href="http://public.beuth-hochschule.de/~s85393/deep-learning/language-model/" target="_blank" rel="noopener noreferrer">Language Model</a> in web browser
