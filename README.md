@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This repository contains an experimental simulator for characer based text generation using a LSTM network.
+This repository contains an experimental simulator for characer based text generation using a LSTM network, which is inspiered by the TensorFlow.js LSTM text generation example.
 
 ## Usage
 - Open <a href="http://public.beuth-hochschule.de/~s85393/deep-learning/language-model/" target="_blank" rel="noopener noreferrer">Language Model</a> in web browser
@@ -34,3 +34,5 @@ Name | Description | Reference |
 | Bootstrap | Bootstrap is a CSS library including JavsScript to style user interfaces and to create user interaction. Within this project Bootstrap v5.2 is used to style user interface and components in a convenient way, and also to add tooltips for context sensitive help | https://getbootstrap.com/ |
 | Tensorflow.js | Tensorflow.js makes deep learning available in the browser or within Node.js. In this project it used for model creating, persistence, training and evaluation | https://www.tensorflow.org/js |
 | Tensorflow.js VIS| Tensorflow.js VIS is a library to create UI helpers to be used with tensorflow.js. Within this project it is used for visualization of data, model, training and evaluation | https://js.tensorflow.org/api_vis/latest/|
+| Yarn | Yarn is a package manager and is used to manage the project's dependencies | https://yarnpkg.com/ | 
+| Parcel |  Parcel is a bundler and is used to run the project in local development mode and build the project's static assets for production environment | https://parceljs.org/ |
