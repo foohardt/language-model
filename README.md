@@ -13,6 +13,7 @@ This repository contains an experimental simulator for characer based text gener
 - Continue typing and let the model continuously predict and add words to your text
 - When user stops typing, the app waits for 1s until the model starts predicting and adding text
 - During prediction the text area containing seed text is disabled for user input
+- You can choose between next word or next sentence prediction using radio buttons below seed text area
 
 ## Technical Documentation
 
