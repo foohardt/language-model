@@ -8,7 +8,7 @@ This repository contains an experimental simulator for character based text gene
 
 The text generator uses a pre-trained LSTM model which is loaded every time the application loaded. The LSTM model consists of 128 layers and was trainied for 200 epochs on an english written text from Nietzsche (the text can be found within the application). The number of neurons in each layers corresponds to the unique characters in the text it was trainied on, which is 84. As activation function softmax was used and as optimizer categorical cross entropy was used.
 
-### Function
+### How does it work
 
 The text generation is done at the character level. Therefore the model takes an input tensor of shape [number of examples, sample length, char set size] as one-hot encoding of sequences of characters according to sample length. The caracters in the sequences belong to an amount of unique characters with length according to char set size.
 
@@ -58,3 +58,25 @@ index.js | Entrypoint for javascript files. Creates instance of TextData. Loads 
 data.js | Contains class TextData, which is used to create reference text data object for model. Text data object contains functions to draw samples and create text indicies for input tensor creation | 
 model.js | Contains function to generate text. Also contains functions to create and compile model | 
 | text-generator.js | Contains class LSTMTextGenerator which can be used to create model instances including functions and fit model, and to generate text. Also contains class SaveableLSTMTextGenerator which contains functions to store instance of LSTMTextGenerator | 
+
+### Functions
+
+This section contains an overview about the project's crucials functions used for text generation.
+
+#### index.js
+Name | Description
+--- | --- |
+run() | Wires up user interface and calls functions to load ressources required for text generation |
+createTextData()| Creates instance of TextData and fetches text string used for reference |
+createTextGenerator() | Creates an instance of SaveableLSTMTextGenerator and loades pre-trained model |
+generateText() | Handles text generation. Calls functions to create tokens from seed text and calls model to generate text |
+
+#### data.js
+Name | Description
+--- | --- |
+| |
+
+#### model.js
+Name | Description
+--- | --- |
+| |
