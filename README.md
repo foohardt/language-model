@@ -92,6 +92,7 @@ loadModel() | Loads pre-trained model from given URL |
 ## Experiments & Results
 
 ### Training
+The model was trained with 2, 10, 20, 50, 100, 150 and 200 epochs. Up to 50 epochs, it could be observed that the trained model generated only contentless unrelated characters. Only from 100 epochs on, a kind of grammatical structure was recognizable in the prediction of the model and the first meaningful words were generated. After training over 150 epochs, the grammar and meaning in the model predictions became clearer and meaningful words and coherent content were formed. Also the specific writing style of the Nietzsche text became recognizable. The best result was achieved with 200 epochs. A training with a higher number of epochs was not carried out, since the training with 200 epochs already took a little more than six hours.
 
 ### Sentences 
 With the present simulator it is possible to generate text based on user input with an artificial neural network. The model was trained with an english text by nietzsche. The text has a specific mode of expression that the model can imitate to a certain extent. The model is also able to write grammatically correct and coherent sentences to a limited extent. In the following example, a partial sentence from nietzsche's text, with which the model was originally trained, was used as the seed text:
@@ -113,4 +114,11 @@ With the present simulator it is also possible to predict the next word of an us
 2. "philosphy"
 3. "mark"
 
-It is interesting that the model in all three attemps predicted a noun for the next, although this effect will probably be rather random. In no case did the model predict the correct word "car". This effect was observed regardless of how often the word "car" appeared in the seed text.
+It is interesting that the model in all three attemps predicted a noun for the next, although this effect was probably be rather random. In no case did the model predict the correct word "car". This effect was observed regardless of how often the word "car" appeared in the seed text.
+
+### Conclusion
+In the present experiment, it was proven that text can be generated with an LSTM network. For this purpose, a model was trained with an English text by Nietzsche. As a result, the model was able to generate text based on user input in the specific writing style of the text with which it was trained. The generated text is human readable and grammatically correct, as well as meaningful in terms of content to a limited extent.
+
+The duration of the training has a direct influence on the quality of the model prediction. Longer training leads to better quality text prediction. The training text is decisive for the content and expression of the prediction. 
+
+The present model therefore uses a rather philosophical expression and everyday language is not suitable to predict. Also the provocation of a specific word prediction at the example "car" was not possible, even if the model in its specific expression can continue sets as user input limited meaningfully.
