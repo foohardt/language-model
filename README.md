@@ -10,7 +10,7 @@ The text generator uses a pre-trained LSTM model which is loaded every time the 
 
 ### How does it work
 
-The text generation is done at the character level. Therefore the model takes an input tensor of shape [number of examples, sample length, char set size] as one-hot encoding of sequences of characters according to sample length. The caracters in the sequences belong to an amount of unique characters with length according to char set size.
+The text generation is done at the character level. Therefore the model takes an input tensor of shape [number of examples, sample length, char set size] as one-hot encoding of sequences of characters according to sample length. The characters in the sequences belong to an amount of unique characters with length according to char set size.
 
 Based on the input tensor the model outputs a tensor of shape [number of examples, char set size]. This output tensor represents the model's predicted propabilities of the characters following the input sequence. Based on the models output propabilities the text generator draws a random sample based on the predicted propabilities, which is used to get the next character. When the next character is obtained it is one-hot encoded and concatenated with the previous input sequence to form the input tensor for the next prediction step. This process is repeteated until characters of a given length have been generated. 
 
@@ -78,8 +78,13 @@ textToIndices() | Converts text strings to integer indices |
 getFromCharSet() | Gets unique character at given index from charset |
 getCharSet_() | Gets set of unique characters from training data |  
 
-
 #### model.js
 Name | Description
 --- | --- |
-| |
+generateText() | Generates text based on models prediction for character occurance probabilities |
+
+#### text-generator.js
+Name | Description
+--- | --- |
+generateText() | Calls model to generate text |
+loadModel() | Loads pre-trained model from given URL |
