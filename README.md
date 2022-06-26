@@ -6,7 +6,7 @@ This repository contains an experimental simulator for character based text gene
 
 ### Overview
 
-The text generator uses a pre-trained LSTM model which is loaded every time the application loaded. The LSTM model consists of 128 layers and was trainied for 200 epochs on an english written text from Nietzsche (the text can be found within the application). The number of neurons in each layers corresponds to the unique characters in the text it was trainied on, which is 84. As activation function softmax was used and as optimizer categorical cross entropy was used.
+The text generator uses a pre-trained LSTM model using tensorflow.js layers API, which is fetched from a given URL and loaded every time the application is loaded. The LSTM model consists of 128 layers and was trainied for 200 epochs on an english written text from Nietzsche (the text can be found within the application). The number of neurons in each layers corresponds to the unique characters in the text it was trainied on, which is 84. As activation function softmax was used and as optimizer categorical cross entropy was used.
 
 ### How does it work
 
