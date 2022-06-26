@@ -74,7 +74,10 @@ generateText() | Handles text generation. Calls functions to create tokens from 
 #### data.js
 Name | Description
 --- | --- |
-| |
+textToIndices() | Converts text strings to integer indices |
+getFromCharSet() | Gets unique character at given index from charset |
+getCharSet_() | Gets set of unique characters from training data |  
+
 
 #### model.js
 Name | Description
