@@ -88,3 +88,16 @@ Name | Description
 --- | --- |
 generateText() | Calls model to generate text |
 loadModel() | Loads pre-trained model from given URL |
+
+## Experiments & Results
+
+With thev present simulator it is possible to generate text based on user input with an artificial neural network. The model was trained with an english text by nietzsche. The text has a specific mode of expression that the model can imitate to a certain extent. The model is also able to write grammatically correct and coherent sentences to a limited extent. In the following example, a partial sentence from nietzsche's text, with which the model was originally trained, was used as the seed text:
+
+"They all pose as though their real opinions had been discovered and attained through the self-evolving of a cold in the [...]"
+
+In three attempts to continue the second part of the sentence with a length of 100 characters based on the above seed text, the model generated the following texts:
+
+(1) "of mistance that is also it was love and the expreparing spiritual manifestly seek be so much there"
+(2) "ir philosophy, is amand the advances of the order had not be man! Morlovely makes all the advance,"
+(3) "truth had been stupidity, of the society, and constant patic that is the consequent be in its not o"
+
