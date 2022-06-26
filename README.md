@@ -91,13 +91,26 @@ loadModel() | Loads pre-trained model from given URL |
 
 ## Experiments & Results
 
-With thev present simulator it is possible to generate text based on user input with an artificial neural network. The model was trained with an english text by nietzsche. The text has a specific mode of expression that the model can imitate to a certain extent. The model is also able to write grammatically correct and coherent sentences to a limited extent. In the following example, a partial sentence from nietzsche's text, with which the model was originally trained, was used as the seed text:
+### Training
+
+### Sentences 
+With the present simulator it is possible to generate text based on user input with an artificial neural network. The model was trained with an english text by nietzsche. The text has a specific mode of expression that the model can imitate to a certain extent. The model is also able to write grammatically correct and coherent sentences to a limited extent. In the following example, a partial sentence from nietzsche's text, with which the model was originally trained, was used as the seed text:
 
 "They all pose as though their real opinions had been discovered and attained through the self-evolving of a cold in the [...]"
 
 In three attempts to continue the second part of the sentence with a length of 100 characters based on the above seed text, the model generated the following texts:
 
-(1) "of mistance that is also it was love and the expreparing spiritual manifestly seek be so much there"
-(2) "ir philosophy, is amand the advances of the order had not be man! Morlovely makes all the advance,"
-(3) "truth had been stupidity, of the society, and constant patic that is the consequent be in its not o"
+1. "of mistance that is also it was love and the expreparing spiritual manifestly seek be so much there"
+2. "ir philosophy, is amand the advances of the order had not be man! Morlovely makes all the advance,"
+3. "truth had been stupidity, of the society, and constant patic that is the consequent be in its not o"
 
+### Next Word
+With the present simulator it is also possible to predict the next word of an user input. To do so, the text generator selects the next full word predicted by the model and concatenates it with the user input. The model does not always succeed in predicting grammatically correct and meaningful words, but it does so regularly and to a limited extent. In the following example, a user input was used and an attempt was made to predict the word "car". The following sentence was used as seed text:
+
+"Marcus has got a car. Marcus really likes his car. His car is very important. Everyday Marcus rides his"
+
+1. "things"
+2. "philosphy"
+3. "mark"
+
+It is interesting that the model in all three attemps predicted a noun for the next, although this effect will probably be rather random. In no case did the model predict the correct word "car". This effect was observed regardless of how often the word "car" appeared in the seed text.
